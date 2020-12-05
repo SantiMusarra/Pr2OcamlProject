@@ -4,13 +4,12 @@ type exp = Eint of int | Ebool of bool | Den of ide | Prod of exp * exp | Sum of
 	Ifthenelse of exp * exp * exp | Let of ide * exp * exp | Fun of ide * exp | FunCall of exp * exp |
 	Letrec of ide * exp * exp
 (*Estensione type*)
-|Empty of exp
 |Singleton of exp
 |Set of exp
 |Merge of exp * exp		(*Operazioni di base*)
 |Intersection of exp * exp (*Operazioni di base*)
 |Subtraction of exp * exp	(*Operazioni di base*)
-|Insert of exp * exp
+|Insert of exp * exp	
 |Remove of exp * exp
 |IsEmpty of exp
 |Member of exp * exp
@@ -21,10 +20,8 @@ type exp = Eint of int | Ebool of bool | Den of ide | Prod of exp * exp | Sum of
 |Exists of exp * exp
 |Filter of exp * exp
 |Map of exp * exp
-	
-	
-	
-	;;
+
+and set = Empty | Element of ide * exp * set;;
 
 
 (*ambiente polimorfo*)
@@ -34,7 +31,7 @@ let applyenv (r : 't env) (i : ide) = r i;;
 let bind (r : 't env) (i : ide) (v : 't) = function x -> if x = i then v else applyenv r x;;
 
 (*tipi esprimibili*)
-type evT = Int of int | Bool of bool | Unbound | FunVal of evFun | RecFunVal of ide * evFun
+type evT = Int of int | Bool of bool | Unbound | FunVal of evFun | RecFunVal of ide * evFun | SetElements of (ide * exp) list
 and evFun = ide * exp * evT env
 
 (*rts*)
